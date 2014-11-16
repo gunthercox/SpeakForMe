@@ -40,10 +40,12 @@
 <div class="row">
 <h1>
     <span class="speak">Speak</span>For<span class="me">Me</span>
+    <small>Creating more realistic vocal experiences</small>
 </h1>
 
 <p>
-  SpeakForMe allows you to use any voice as the source for a speech synthesizer.
+  Become part of a community of voices that allow you to sound more like a
+  human and less like a science fiction killer.
 </p>
 
 <dl class="tabs" data-tab>
@@ -102,8 +104,10 @@
 
   <div class="content" id="tab-create">
     <div class="content" id="text-input">
-      <div class="row collapse" align="center">
-	    <p>Choose a voice to dictate. </p>
+      <div class="row collapse">
+        <p>
+          Pick the name of a voice to use when generating the audio file.
+        </p>
     <form method="POST" action="/play">
 	  <script>
 	    var names = ReadCookie("S4MEName").split("/?");
@@ -114,7 +118,7 @@
 	    option += "</select>";
 	    document.write(option);
 	  </script>
-          <p>Enter text below to synthesize with your own voice.</p>
+          <p>Enter text below that you would like the voice to say.</p>
           <input type="text" id="text_input" name="text_input">
 	  <input type="submit" value="Submit">
 	  </form>
