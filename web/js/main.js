@@ -1,5 +1,9 @@
+$(document).foundation();
+
 var $btnRecord = $('.js-btn-record');
 var $btnStop = $('.js-btn-stop');
+
+var $name = $('.js-name');
 
 var $weHeard = $('.js-we-heard').hide();
 var $textSaid = $('.js-text-said');
@@ -70,5 +74,19 @@ recognition.addEventListener('result', function (evt) {
     $audio.prop('controls', true);
 
     $audio.insertAfter($textSaid);
+
+    var formData = new FormData();
+
+    formData.append('file', blob);
+    formData.append('name', $name.val());
+    formData.append('text', $weHeard.val());
+
+    $.ajax({
+      type: 'POST',
+      url: '/api/add',
+      data: formData,
+      processData: false,
+      contentType: false
+    });
   });
 });

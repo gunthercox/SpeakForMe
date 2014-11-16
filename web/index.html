@@ -7,6 +7,8 @@
   <link href="css/main.css" rel="stylesheet" />
 </head>
 <body>
+
+<div class="row">
 <h1>
     <span class="speak">Speak</span>For<span class="me">Me</span>
 </h1>
@@ -15,12 +17,21 @@
   SpeakForMe allows you to use any voice as the source for a speech synthesizer.
 </p>
 
-<p>
-  In order to get started, enter the name of the voice you want to record (make it unique) and click the "Record" button below.
-</p>
+<dl class="tabs" data-tab>
+  <dd class="active">
+    <a href="#tab-record">I want to record a voice</a>
+  </dd>
+  <dd>
+    <a href="#tab-create">I want to create a clip</a>
+  </dd>
+</dl>
 
-<div class="row">
-  <div class="small-12 columns">
+<div class="tabs-content">
+  <div class="content active" id="tab-record">
+    <p>
+      In order to get started, enter the name of the voice you want to record (make it unique) and click the "Record" button below.
+    </p>
+
     <div class="row">
       <div class="small-1 columns">
         <label for="name" class="inline right">
@@ -55,10 +66,17 @@
       </p>
     </div>
   </div>
+
+  <div class="content" id="tab-create">
+    <div class="row">
+      Stuff
+    </div>
+  </div>
+</div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.4.7/js/foundation/foundation.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.4.7/js/foundation.min.js"></script>
 
 <script src="js/recorder.js"></script>
 <script src="js/main.js"></script>
