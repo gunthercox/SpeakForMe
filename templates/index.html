@@ -44,7 +44,7 @@
     <a href="#tab-record">I have a voice</a>
   </dd>
   <dd>
-    <a href="#tab-create" onclick="populateDropdown();">I need a voice</a>
+    <a href="#tab-create">I need a voice</a>
   </dd>
 </dl>
 
@@ -90,10 +90,9 @@
   </div>
 
   <div class="content" id="tab-create">
-    <div class="row">
-      <div class="content" id="text-input">
-        <div class="row" align="center">
-	  <p>Choose a voice to dictate. </p>
+    <div class="content" id="text-input">
+      <div class="row collapse" align="center">
+	    <p>Choose a voice to dictate. </p>
     <form method="POST" action="/play">
 	  <script>
 	    var names = ReadCookie("S4MEName").split("/?");
@@ -111,7 +110,6 @@
           <br />
           <div align="right"><a href="#">Play</a><a href="/download/" style="margin-right:100px;"><img width=50 height=50 src="/img/download.png"></a>
 	  <br />
-        </div>
       </div>
     </div>
   </div>
