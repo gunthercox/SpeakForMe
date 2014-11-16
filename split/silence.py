@@ -156,7 +156,7 @@ def convert_upload(file_name, sentence, user):
             saveSegment(("/tmp/%s.wav" % word), file, raw_data, start_idx, end_idx)
             subprocess.call(["sox", ("/tmp/%s.wav" % word), "%s/uploads/%s/words/%s.wav" % (os.getcwd(), user, word, ), "silence", "1", "0.1", "1%", "reverse", "silence", "1", "0.1", "2.5%", "reverse"])
 
-            word_file = wave.open("uploads/%s/words/%s.wav" % (user, word, ), "rb")
+            word_file = wave.open("uploads/%s/words/%s.wav" % (user, word), "rb")
             data = word_file.readframes(CHUNK_SIZE)
             word_data = []
 
@@ -170,13 +170,15 @@ def convert_upload(file_name, sentence, user):
 
             phoneme_start = 0
 
+	    os.makedirs("uploads/%s/phonemes/%s" % (user, word))
+
             for phoneme in phonemes:
                 ratio = 1 / len(phonemes)
 		print phoneme + " --> " + word
-                frame_count = int(ratio * word_length)	
-		# print str("uploads/"+str(user)+"/phonemes/"+str(word)+"/"+str(phoneme))
-                saveSegment("uploads/%s/phonemes/%s/%s" % (user, word, phoneme), file, word_data, phoneme_start, phoneme_start + frame_count)
-
+                frame_count = int(ratio * word_length)
+	   	filepath = "uploads/%s/phonemes/%s/%s" % (user, word, phoneme)
+	   	print filepath
+                saveSegment(filepath, file, word_data, phoneme_start, phoneme_start + frame_count)
                 phoneme_start += frame_count
 
     file.close()
