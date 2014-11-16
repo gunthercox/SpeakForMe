@@ -5,3 +5,13 @@
 .me {
   color: green;
 }
+
+.tabs dd {
+  border: 1px solid #efefef;
+  border-bottom: none;;
+}
+
+.tabs dd.active {
+  border: 1px solid #D7D7D7;
+  border-bottom: none;;
+}
