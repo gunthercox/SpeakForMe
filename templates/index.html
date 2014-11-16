@@ -97,40 +97,47 @@
       <textarea class="js-text-said" readonly="readonly"></textarea>
 
       <p>
-        You will now be able to synthesize speech using these same words, and other words like them, by referencing the name you entered above.
+        You will now be able to synthesize speech using these same words,
+        and other words like them, by referencing the name you entered above.
       </p>
     </div>
   </div>
 
   <div class="content" id="tab-create">
     <div class="content" id="text-input">
-      <div class="row collapse">
+      <div class="row collapse" align="center">
         <p>
           Pick the name of a voice to use when generating the audio file.
         </p>
-    <form method="POST" action="/play">
-	  <script>
-	    var names = ReadCookie("S4MEName").split("/?");
-	    var option = "<select name=\"name\">";
-	    for(var i = 0; i < names.length; i++){
-  	     option += "<option value="+names[i]+">"+names[i]+"</option>";
-	    }
-	    option += "</select>";
-	    document.write(option);
-	  </script>
+        <form method="POST" action="/play">
+
+          <script>
+            var names = ReadCookie("S4MEName").split("/?");
+            var option = "<select name=\"name\">";
+            for(var i = 0; i < names.length; i++){
+              option += "<option value="+names[i]+">"+names[i]+"</option>";
+            }
+            option += "</select>";
+            document.write(option);
+          </script>
+
           <p>Enter text below that you would like the voice to say.</p>
-          <input type="text" id="text_input" name="text_input">
-	  <input type="submit" value="Submit">
-	  </form>
-          <br />
-          <div align="right"><a href="#">Play</a><a href="/download/" style="margin-right:100px;"><img width=50 height=50 src="/img/download.png"></a>
-	  <br />
+
+          <textarea id="text_input" name="text_input"></textarea>
+	      <input class="button" type="submit" value="Submit">
+
+          <hr class="hr-dashed" />
+
+          <a href="/download/" style="font-size: 38px;">Play
+            <img width=50 height=50 src="/img/download.png">
+          </a>
+
+	    </form>
+
       </div>
     </div>
+
   </div>
-
-</div>
-
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
