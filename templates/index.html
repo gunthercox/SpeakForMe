@@ -94,16 +94,16 @@
       <div class="content" id="text-input">
         <div class="row" align="center">
 	  <p>Choose a voice to dictate. </p>
+    <form method="POST" action="/play">
 	  <script>
 	    var names = ReadCookie("S4MEName").split("/?");
-	    var option = "<select>";
+	    var option = "<select name=\"name\">";
 	    for(var i = 0; i < names.length; i++){
   	     option += "<option value="+names[i]+">"+names[i]+"</option>";
 	    }
 	    option += "</select>";
 	    document.write(option);
 	  </script>
-	  <form method="POST" action="/play">
           <p>Enter text below to synthesize with your own voice.</p>
           <input type="text" id="text_input" name="text_input">
 	  <input type="submit" value="Submit">

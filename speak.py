@@ -53,12 +53,31 @@ def post():
 
 @app.route('/play', methods = ['POST'])
 def postSpeak():
+    from flask import send_file
     from split.silence import get_phonemes
-    textToSpeech = request.form['text_input']
-    words = textToSpeech.split(" ")
+    import tempfile
+    import wave
+
+    text = request.form['text_input']
+    name = request.form['name']
+
+    words = text.split(" ")
+
+    temp = tempfile.NamedTemporaryFile(mode='w+b',suffix='wav')
+    temp_wave = wave.open(temp, 'wb')
+
     for word in words:
-      print get_phonemes(str(word))
-    return redirect('/')
+        phonemes = get_phonemes(str(word))
+
+        for phoneme in phonemes:
+            file_name = "uploads/%s/phonemes/%s" % (name, phoneme, )
+            phoneme_file = wave.open(file_name, 'rb')
+
+            # copy the phoneme to the temprary file
+
+        # throw some space in at the end of the word
+
+    return send_file(temp)
 
 if __name__ == "__main__":
     app.config.update(
