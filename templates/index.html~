@@ -1,12 +1,127 @@
+<!doctype html>
 <html>
 <head>
+  <title>SpeakForMe</title>
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.4.7/css/foundation.css" rel="stylesheet" />
+  <link href="css/main.css" rel="stylesheet" />
+  <script>
+	function saveCookie(){
+	  var name = document.getElementById("name").value;
+	  var existingCookie = ReadCookie("S4MEName");
+	  // Append to the cookies
+	  var save_this = "S4MEName="+existingCookie+"/?"+name;
+	  document.cookie=save_this;
+	  alert(ReadCookie("S4MEName"));
+	}
+	function ReadCookie(name)
+	{
+	  name += '=';
+	  var parts = document.cookie.split(/;\s*/);
+	  for (var i = 0; i < parts.length; i++)
+	  {
+    		var part = parts[i];
+    		if (part.indexOf(name) == 0)
+      		  return part.substring(name.length)
+  	  }
+  	  return null;
+	}
+
+  </script>
 </head>
 <body>
-<h1>test</h1>
-<form action="/data" method="post">
-<input type="text" name="data"></input>
-<input type="file" name="pic" accept="image/*">
-<input type="submit" value="Signup"></input>
-</form>
+
+<div class="row">
+<h1>
+    <span class="speak">Speak</span>For<span class="me">Me</span>
+</h1>
+
+<p>
+  SpeakForMe allows you to use any voice as the source for a speech synthesizer.
+</p>
+
+<dl class="tabs" data-tab>
+  <dd class="active">
+    <a href="#tab-record">I want to record a voice</a>
+  </dd>
+  <dd>
+    <a href="#tab-create" onclick="populateDropdown();">I want to create a clip</a>
+  </dd>
+</dl>
+
+<div class="tabs-content">
+  <div class="content active" id="tab-record">
+    <p>
+      In order to get started, enter the name of the voice you want to record (make it unique) and click the "Record" button below.
+    </p>
+
+    <div class="row">
+      <div class="small-1 columns">
+        <label for="name" class="inline right">
+          Name
+        </label>
+      </div>
+
+      <div class="small-9 columns">
+        <input type="text" value="test" id="name" class="js-name" required="required" />
+      </div>
+
+      <div class="small-2 columns">
+        <button class="button success js-btn-record">
+          Record
+        </button>
+
+        <button class="button alert js-btn-stop hide" onclick="saveCookie();">
+          Stop
+        </button>
+      </div>
+    </div>
+
+    <div class="js-we-heard">
+      <p>
+        Great! We have recorded what you said and this is what we think we heard:
+      </p>
+
+      <textarea class="js-text-said" readonly="readonly"></textarea>
+
+      <p>
+        You will now be able to synthesize speech using these same words, and other words like them, by referencing the name you entered above.
+      </p>
+    </div>
+  </div>
+
+  <div class="content" id="tab-create">
+    <div class="row">
+      <div class="content" id="text-input">
+        <div class="row" align="center">
+	  <div id="name_dropdown"></div>
+	  <script>
+	    var names = ReadCookie("S4MEName").split("/?");
+	    var option = "<select>";
+	    for(var i = 0; i < names.length; i++){
+  	     option += "<option value="+names[i]+">"+names[i]+"</option>";
+	    }
+	    option += "</select>"; 
+	    document.write(option);
+	  </script>
+          <p>Enter text below to synthesize with your own voice.</p>
+          <textarea style="width: 75%; height: 150px;" id="text_input"></textarea>
+          <br />
+          <div align="right"><a href="#">Play</a><a href="/download/" style="margin-right:100px;"><img width=50 height=50 src="/img/download.png"></a>
+	  <br />
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+  
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.4.7/js/foundation.min.js"></script>
+
+<script src="js/recorder.js"></script>
+<script src="js/main.js"></script>
 </body>
 </html>

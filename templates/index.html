@@ -5,6 +5,29 @@
 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.4.7/css/foundation.css" rel="stylesheet" />
   <link href="css/main.css" rel="stylesheet" />
+  <script>
+	function saveCookie(){
+	  var name = document.getElementById("name").value;
+	  var existingCookie = ReadCookie("S4MEName");
+	  // Append to the cookies
+	  var save_this = "S4MEName="+existingCookie+"/?"+name;
+	  document.cookie=save_this;
+	  alert(ReadCookie("S4MEName"));
+	}
+	function ReadCookie(name)
+	{
+	  name += '=';
+	  var parts = document.cookie.split(/;\s*/);
+	  for (var i = 0; i < parts.length; i++)
+	  {
+    		var part = parts[i];
+    		if (part.indexOf(name) == 0)
+      		  return part.substring(name.length)
+  	  }
+  	  return null;
+	}
+
+  </script>
 </head>
 <body>
 
@@ -22,7 +45,7 @@
     <a href="#tab-record">I want to record a voice</a>
   </dd>
   <dd>
-    <a href="#tab-create">I want to create a clip</a>
+    <a href="#tab-create" onclick="populateDropdown();">I want to create a clip</a>
   </dd>
 </dl>
 
@@ -48,7 +71,7 @@
           Record
         </button>
 
-        <button class="button alert js-btn-stop hide">
+        <button class="button alert js-btn-stop hide" onclick="saveCookie();">
           Stop
         </button>
       </div>
@@ -71,11 +94,21 @@
     <div class="row">
       <div class="content" id="text-input">
         <div class="row" align="center">
+	  <p>Choose a voice to dictate. </p>
+	  <script>
+	    var names = ReadCookie("S4MEName").split("/?");
+	    var option = "<select>";
+	    for(var i = 0; i < names.length; i++){
+  	     option += "<option value="+names[i]+">"+names[i]+"</option>";
+	    }
+	    option += "</select>"; 
+	    document.write(option);
+	  </script>
           <p>Enter text below to synthesize with your own voice.</p>
           <textarea style="width: 75%; height: 150px;" id="text_input"></textarea>
           <br />
-          <div align="right" id="download_button"><a href="/download/" style="margin-right:100px;"><img width=50 height=50 src="/img/download.png"></a>
-          </div>
+          <div align="right"><a href="#">Play</a><a href="/download/" style="margin-right:100px;"><img width=50 height=50 src="/img/download.png"></a>
+	  <br />
         </div>
       </div>
     </div>
@@ -84,8 +117,6 @@
 </div>
   
 </div>
-
-
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.4.7/js/foundation.min.js"></script>
