@@ -51,7 +51,7 @@ def post():
 
     return redirect('/')
 
-@app.route('/play', methods = ['POST'])
+@app.route('/play', methods = ['GET'])
 def postSpeak():
     from flask import send_file
     from split.silence import get_phonemes
@@ -59,10 +59,10 @@ def postSpeak():
     import tempfile
     import wave
 
-    text = request.form['text_input']
-    name = request.form['name']
+    text = request.args.get('text_input')
+    name = request.args.get('name')
 
-    words = text.split(" ")
+    words = text.split()
 
     temp = tempfile.NamedTemporaryFile(mode='w+b', suffix='wav')
     temp_wave = wave.open(temp, 'wb')
