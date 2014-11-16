@@ -1,8 +1,19 @@
+import os
 from flask import Flask
 from flask import render_template
 from flask import request, redirect, url_for
+from werkzeug import secure_filename
+from time import gmtime, strftime
+
+UPLOAD_FOLDER = '/uploads'
+ALLOWED_EXTENSIONS = set(['wav'])
 
 app = Flask(__name__, static_url_path='')
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 @app.route('/')
 def index():
@@ -12,12 +23,19 @@ def index():
     url_for('static', filename='js/recorderWorker.js')
     return render_template('index.html')
 
-@app.route('/data', methods = ['POST'])
+@app.route('/api/add', methods = ['POST'])
 def post():
-    data = request.form['data']
-    print("data is '" + data + "'")
-
-   
+    text = request.form['text']
+    name = request.form['name']
+    print("text is '" + text + "'")
+    print("name is '" + name + "'")
+    file = request.files['file']
+    
+    if file:
+	path = os.getcwd()+"/uploads/"+name
+        if not os.path.exists(path):
+    	    os.makedirs(path)
+	file.save(path+"/"+strftime("%Y-%m-%d_%H:%M:%S", gmtime())+".wav")  
 
     
 
