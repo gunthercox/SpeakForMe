@@ -1,5 +1,5 @@
 
-def saveSegment(word_name, raw, raw_data, start, end):
+def saveSegment(file_name, raw, raw_data, start, end):
     import wave
 
     #raw = wave.open('inputFile.wav','r')
@@ -7,11 +7,9 @@ def saveSegment(word_name, raw, raw_data, start, end):
     nChannels = raw.getnchannels()
     sampWidth = raw.getsampwidth()
 
-    output_file = "temp/" + word_name + ".wav"
-
     chunk_data = raw_data[start:end+1]
 
-    chunkAudio = wave.open(output_file, "w")
+    chunkAudio = wave.open(file_name, "w")
     chunkAudio.setnchannels(nChannels)
     chunkAudio.setsampwidth(sampWidth)
     chunkAudio.setframerate(frameRate)

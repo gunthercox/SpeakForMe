@@ -17,7 +17,6 @@ var audioContext = new AudioContext();
 
 $btnRecord.on('click', function () {
   $weHeard.fadeOut();
-  $textSaid.val('');
 
   if (!recorder) {
     navigator.webkitGetUserMedia({
@@ -63,7 +62,7 @@ recognition.addEventListener('result', function (evt) {
       items.push(item.transcript);
     }
 
-    $textSaid.append(items);
+    $textSaid.val(items.join(' '));
   }
 
   recorder.exportWAV(function (blob) {

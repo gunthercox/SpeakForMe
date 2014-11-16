@@ -35,16 +35,18 @@ def post():
     file = request.files['file']
 
     if file:
-        path = os.getcwd() + "/uploads/" + name
+        path = "uploads/" + name
 
         if not os.path.exists(path):
             os.makedirs(path)
+            os.makedirs("%s/words" % path)
+            os.makedirs("%s/phonemes" % path)
 
     file_name = path + "/" + strftime("%Y-%m-%d_%H:%M:%S", gmtime())+".wav"
 
     file.save(file_name)
 
-    convert_upload(file_name, text)
+    convert_upload(file_name, text, name)
 
     return redirect('/')
 

@@ -5,6 +5,7 @@ from .data import saveSegment
 from array import array
 
 import json
+import os
 import sys
 import wave
 import subprocess
@@ -36,8 +37,8 @@ def get_phoneme_sum(phonemes):
 
     return len(total_phoneme)
 
-def convert_upload(file_name, sentence):
-    sentence = "Create ongoing communication and support teachers by sending links to view their observations and evaluations".lower().split()
+def convert_upload(file_name, sentence, user):
+    sentence = sentence.lower().strip().split()
     sentence_index = -1
 
     CHUNK_SIZE = 256
@@ -150,10 +151,10 @@ def convert_upload(file_name, sentence):
             if len(word) < 4:
                 continue
 
-            saveSegment(word, file, raw_data, start_idx, end_idx)
-            subprocess.call(["sox", "temp/" + word+".wav", "temp/" + word+"-stripped.wav", "silence", "1", "0.1", "0.1%", "reverse", "silence", "1", "0.1", "2.5%", "reverse"])
+            saveSegment(("/tmp/%s.wav" % word), file, raw_data, start_idx, end_idx)
+            subprocess.call(["sox", ("/tmp/%s.wav" % word), "%s/uploads/%s/words/%s.wav" % (os.getcwd(), user, word, ), "silence", "1", "0.1", "1%", "reverse", "silence", "1", "0.1", "2.5%", "reverse"])
 
-            word_file = wave.open("temp/" + word+"-stripped.wav", "rb")
+            word_file = wave.open("uploads/%s/words/%s.wav" % (user, word, ), "rb")
             data = word_file.readframes(CHUNK_SIZE)
             word_data = []
 
@@ -172,7 +173,7 @@ def convert_upload(file_name, sentence):
 
                 frame_count = int(ratio * word_length)
 
-                saveSegment("phonemes/" + word + "-" + phoneme, file, word_data, phoneme_start, phoneme_start + frame_count)
+                saveSegment("uploads/%s/phonemes/%s-%s" % (user, word, phoneme, ), file, word_data, phoneme_start, phoneme_start + frame_count)
 
                 phoneme_start += frame_count
 
