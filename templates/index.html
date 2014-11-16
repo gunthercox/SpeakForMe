@@ -5,13 +5,20 @@
 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.4.7/css/foundation.css" rel="stylesheet" />
   <link href="css/main.css" rel="stylesheet" />
-  <script>
+  <script type="text/javascript">
 	function saveCookie(){
 	  var name = document.getElementById("name").value;
 	  var existingCookie = ReadCookie("S4MEName");
+
+    // Check that the name isn't already there
+    if (existingCookie.indexOf(name) !== -1) {
+      return;
+    }
+
 	  // Append to the cookies
-	  var save_this = "S4MEName="+existingCookie+"/?"+name;
-	  document.cookie=save_this;
+	  var save_this = "S4MEName=" + existingCookie + "/?" + name;
+
+	  document.cookie = save_this;
 	}
 	function ReadCookie(name)
 	{
@@ -51,7 +58,11 @@
 <div class="tabs-content">
   <div class="content active" id="tab-record">
     <p>
-      In order to get started, enter the name of the voice you want to record (make it unique) and click the "Record" button below.
+      In order to get started, enter the name of the voice you want to record
+      (make it unique) and click the "Record" button below. After clicking
+      "Record", you will be prompted for access to your microphone twice. This
+      will allow us to record your voice, and you will be able to stop recording
+      at any time.
     </p>
 
     <div class="row collapse">
@@ -70,7 +81,7 @@
           Record
         </button>
 
-        <button class="button alert js-btn-stop hide" onclick="saveCookie();">
+        <button class="button alert postfix js-btn-stop hide" onclick="saveCookie();">
           Stop
         </button>
       </div>
