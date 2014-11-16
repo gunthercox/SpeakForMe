@@ -70,10 +70,12 @@ def postSpeak():
         phonemes = get_phonemes(str(word))
 
         for phoneme in phonemes:
-            file_name = "uploads/%s/phonemes/%s" % (name, phoneme, )
-            phoneme_file = wave.open(file_name, 'rb')
+	  
+            file_name = "uploads/%s/phonemes/%s/%s" % (name, word, phoneme)
+	    print file_name
+            #phoneme_file = wave.open(file_name, 'rb')
 
-            # copy the phoneme to the temprary file
+            # copy the phoneme to the temporary file
 
         # throw some space in at the end of the word
 

@@ -121,6 +121,8 @@ def convert_upload(file_name, sentence, user):
         if max_data < all_avg and not in_silence:
 
             end_idx = idx
+	    if sentence_index ==  len(sentence):
+   	      break
             word = sentence[sentence_index]
 
             phonemes = get_phonemes(word)
@@ -170,10 +172,10 @@ def convert_upload(file_name, sentence, user):
 
             for phoneme in phonemes:
                 ratio = 1 / len(phonemes)
-
-                frame_count = int(ratio * word_length)
-
-                saveSegment("uploads/%s/phonemes/%s-%s" % (user, word, phoneme, ), file, word_data, phoneme_start, phoneme_start + frame_count)
+		print phoneme + " --> " + word
+                frame_count = int(ratio * word_length)	
+		# print str("uploads/"+str(user)+"/phonemes/"+str(word)+"/"+str(phoneme))
+                saveSegment(str("uploads/"+str(user)+"/phonemes/"+str(word)+"/"+str(phoneme)), file, word_data, phoneme_start, phoneme_start + frame_count)
 
                 phoneme_start += frame_count
 
