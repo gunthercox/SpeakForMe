@@ -75,7 +75,6 @@ def postSpeak():
         phonemes = get_phonemes(str(word))
 
         for phoneme in phonemes:
-
             file_name = "uploads/%s/phonemes/%s/%s.wav" % (name, phoneme, word)
 
             if os.path.exists(file_name):

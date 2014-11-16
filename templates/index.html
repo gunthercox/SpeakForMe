@@ -109,8 +109,7 @@
         <p>
           Pick the name of a voice to use when generating the audio file.
         </p>
-        <form method="GET" action="/play">
-
+        <form method="GET" action="/play" class="js-form-play">
           <script>
             var names = ReadCookie("S4MEName").split("/?");
             var option = "<select name=\"name\">";
@@ -124,14 +123,14 @@
           <p>Enter text below that you would like the voice to say.</p>
 
           <textarea id="text_input" name="text_input"></textarea>
-	      <input class="button" type="submit" value="Submit">
+
+	        <input class="button" type="submit" value="Submit">
 
           <hr class="hr-dashed" />
 
           <a href="/download/" style="font-size: 38px;">Play
             <img width=50 height=50 src="/img/download.png">
           </a>
-
 	    </form>
 
       </div>

@@ -90,3 +90,18 @@ recognition.addEventListener('result', function (evt) {
     });
   });
 });
+
+$('.js-form-play').on('submit', function (evt) {
+  evt.preventDefault();
+  evt.stopPropagation();
+
+  $('.js-audio-clip').remove();
+
+  var url = '/play?name=' + this.name.value + '&text_input=' + this.text_input.value;
+
+  var $audio = $('<audio class="js-audio-clip"></audio>');
+  $audio.attr('src', url);
+  $audio.prop('controls', true);
+
+  $(this).append($audio);
+});
