@@ -1,0 +1,16 @@
+from flask.views import View
+from flask import url_for, render_template
+
+
+class Api(View):
+
+    def dispatch_request(self):
+        from flask import request, jsonify
+
+        data = {}
+
+        return render_template('index.html')
+
+
+
+
