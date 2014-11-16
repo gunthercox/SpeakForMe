@@ -21,6 +21,7 @@ def index():
     url_for('static', filename='js/main.js')
     url_for('static', filename='js/recorder.js')
     url_for('static', filename='js/recorderWorker.js')
+    url_for('static', filename='img/download.png')
     return render_template('index.html')
 
 @app.route('/api/add', methods = ['POST'])
