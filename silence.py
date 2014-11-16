@@ -44,14 +44,8 @@ CHUNK_SIZE = 256
 
 file = wave.open(sys.argv[1], "rb")
 
-out_file = wave.open(sys.argv[2], "wb")
-
 stream_channels = file.getnchannels()
 stream_rate = file.getframerate()
-
-out_file.setnchannels(stream_channels)
-out_file.setframerate(stream_rate)
-out_file.setsampwidth(2)
 
 data = file.readframes(CHUNK_SIZE)
 
@@ -84,8 +78,6 @@ for data in all_data:
 
 all_avg = all_max * 0.1
 
-print all_min, all_max, all_avg
-
 start_silence = 0
 in_silence = True
 
@@ -110,17 +102,16 @@ for idx, data in enumerate(all_data):
             for d in data:
                 silence_total += abs(d)
 
-            silence_total = silence_total / len(data)        
+            silence_total = silence_total / len(data)
 
     if max_data > all_avg and in_silence:
         if silence_count > 1:
             in_silence = False
             sentence_index += 1
-            print "Start word", silence_count
+
             silence_count = 0
 
             start_idx = idx
-            #print ">>>>", start_idx
 
     # Increment the silence count if it is still silent
     if max_data < all_avg and in_silence:
@@ -156,13 +147,6 @@ for idx, data in enumerate(all_data):
         in_silence = True
         words += 1
 
-        print "End word", word, phoneme_sum * 7
-        print ">>>>>>>>>", end_idx, end_idx - start_idx
-
-        smurf_data = raw_data[start_idx:end_idx+1]
-        for data in smurf_data:
-            out_file.writeframes(data)
-
         if len(word) < 4:
             continue
 
@@ -190,11 +174,6 @@ for idx, data in enumerate(all_data):
 
             saveSegment("phonemes/" + word + "-" + phoneme, file, word_data, phoneme_start, phoneme_start + frame_count)
 
-            print phoneme, ratio, ratio * word_length
-
             phoneme_start += frame_count
 
-print start_silence, words
-
 file.close()
-out_file.close()
