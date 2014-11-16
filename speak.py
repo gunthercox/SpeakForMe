@@ -5,6 +5,7 @@ from flask import request, redirect, url_for
 from werkzeug import secure_filename
 from time import gmtime, strftime
 
+
 UPLOAD_FOLDER = '/uploads'
 ALLOWED_EXTENSIONS = set(['wav'])
 
@@ -48,6 +49,15 @@ def post():
 
     convert_upload(file_name, text, name)
 
+    return redirect('/')
+
+@app.route('/play', methods = ['POST'])
+def postSpeak():
+    from split.silence import get_phonemes
+    textToSpeech = request.form['text_input']
+    words = textToSpeech.split(" ")
+    for word in words:
+      print get_phonemes(str(word))
     return redirect('/')
 
 if __name__ == "__main__":

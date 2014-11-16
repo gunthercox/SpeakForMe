@@ -12,7 +12,6 @@
 	  // Append to the cookies
 	  var save_this = "S4MEName="+existingCookie+"/?"+name;
 	  document.cookie=save_this;
-	  alert(ReadCookie("S4MEName"));
 	}
 	function ReadCookie(name)
 	{
@@ -42,10 +41,10 @@
 
 <dl class="tabs" data-tab>
   <dd class="active">
-    <a href="#tab-record">I want to record a voice</a>
+    <a href="#tab-record">I have a voice</a>
   </dd>
   <dd>
-    <a href="#tab-create" onclick="populateDropdown();">I want to create a clip</a>
+    <a href="#tab-create" onclick="populateDropdown();">I need a voice</a>
   </dd>
 </dl>
 
@@ -94,18 +93,21 @@
     <div class="row">
       <div class="content" id="text-input">
         <div class="row" align="center">
-	  <div id="name_dropdown"></div>
+	  <p>Choose a voice to dictate. </p>
 	  <script>
 	    var names = ReadCookie("S4MEName").split("/?");
 	    var option = "<select>";
 	    for(var i = 0; i < names.length; i++){
   	     option += "<option value="+names[i]+">"+names[i]+"</option>";
 	    }
-	    option += "</select>"; 
+	    option += "</select>";
 	    document.write(option);
 	  </script>
+	  <form method="POST" action="/play">
           <p>Enter text below to synthesize with your own voice.</p>
-          <textarea style="width: 75%; height: 150px;" id="text_input"></textarea>
+          <textarea style="width: 75%; height: 150px;" id="text_input" name="text_input"></textarea>
+	  <input type="submit" value="Submit">
+	  </form>
           <br />
           <div align="right"><a href="#">Play</a><a href="/download/" style="margin-right:100px;"><img width=50 height=50 src="/img/download.png"></a>
 	  <br />
@@ -115,7 +117,7 @@
   </div>
 
 </div>
-  
+
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.js"></script>

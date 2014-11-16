@@ -103,8 +103,11 @@
 	    option += "</select>";
 	    document.write(option);
 	  </script>
+	  <form method="POST" action="/play">
           <p>Enter text below to synthesize with your own voice.</p>
-          <textarea style="width: 75%; height: 150px;" id="text_input"></textarea>
+          <input type="text" id="text_input" name="text_input">
+	  <input type="submit" value="Submit">
+	  </form>
           <br />
           <div align="right"><a href="#">Play</a><a href="/download/" style="margin-right:100px;"><img width=50 height=50 src="/img/download.png"></a>
 	  <br />
