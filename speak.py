@@ -1,11 +1,15 @@
 from flask import Flask
 from flask import render_template
-from flask import request, redirect
+from flask import request, redirect, url_for
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
 
 @app.route('/')
 def index():
+    url_for('static', filename='css/main.css')
+    url_for('static', filename='js/main.js')
+    url_for('static', filename='js/recorder.js')
+    url_for('static', filename='js/recorderWorker.js')
     return render_template('index.html')
 
 @app.route('/data', methods = ['POST'])
