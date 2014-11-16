@@ -55,6 +55,7 @@ def post():
 def postSpeak():
     from flask import send_file
     from split.silence import get_phonemes
+    import shutil
     import tempfile
     import wave
 
@@ -63,23 +64,33 @@ def postSpeak():
 
     words = text.split(" ")
 
-    temp = tempfile.NamedTemporaryFile(mode='w+b',suffix='wav')
+    temp = tempfile.NamedTemporaryFile(mode='w+b', suffix='wav')
     temp_wave = wave.open(temp, 'wb')
+
+    temp_wave.setnchannels(2)
+    temp_wave.setsampwidth(2)
+    temp_wave.setframerate(44100)
 
     for word in words:
         phonemes = get_phonemes(str(word))
 
         for phoneme in phonemes:
-	  
-            file_name = "uploads/%s/phonemes/%s/%s" % (name, word, phoneme)
-	    print file_name
-            #phoneme_file = wave.open(file_name, 'rb')
 
-            # copy the phoneme to the temporary file
+            file_name = "uploads/%s/phonemes/%s/%s.wav" % (name, phoneme, word)
+
+            if os.path.exists(file_name):
+                phoneme_file = wave.open(file_name, 'rb')
+                frames = phoneme_file.readframes(phoneme_file.getnframes())
+
+                temp_wave.writeframes(frames)
 
         # throw some space in at the end of the word
 
-    return send_file(temp)
+    temp_wave.close()
+
+    temp.seek(0)
+
+    return send_file(temp, mimetype="audio/wav")
 
 if __name__ == "__main__":
     app.config.update(
