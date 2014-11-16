@@ -10,10 +10,10 @@
 	  var name = document.getElementById("name").value;
 	  var existingCookie = ReadCookie("S4MEName");
 
-    // Check that the name isn't already there
-    if (existingCookie.indexOf(name) !== -1) {
-      return;
-    }
+    	 // Check that the name isn't already there
+    	 //if (existingCookie.indexOf(name) !== -1) {
+      	//	return;
+    	 //}
 
 	  // Append to the cookies
 	  var save_this = "S4MEName=" + existingCookie + "/?" + name;
@@ -75,7 +75,7 @@
       </div>
 
       <div class="small-9 columns">
-        <input type="text" value="test" id="name" class="js-name" required="required" />
+        <input type="text" value="" id="name" class="js-name" required="required" />
       </div>
 
       <div class="small-2 columns">
@@ -114,7 +114,9 @@
             var names = ReadCookie("S4MEName").split("/?");
             var option = "<select name=\"name\">";
             for(var i = 0; i < names.length; i++){
+ 	      if(names[i] !== 'null'){
               option += "<option value="+names[i]+">"+names[i]+"</option>";
+	      }
             }
             option += "</select>";
             document.write(option);
@@ -128,7 +130,7 @@
 
           <hr class="hr-dashed" />
 
-          <a href="/download/" style="font-size: 38px;">Play
+          <a href="/download/" style="font-size: 38px;">Download
             <img width=50 height=50 src="/img/download.png">
           </a>
 	    </form>
