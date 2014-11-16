@@ -84,12 +84,15 @@ def postSpeak():
                 temp_wave.writeframes(frames)
 
         # throw some space in at the end of the word
+        blank = '\x00\x00' * 5000
+
+        temp_wave.writeframes(blank)
 
     temp_wave.close()
 
     temp.seek(0)
 
-    return send_file(temp, mimetype="audio/wav")
+    return send_file(temp, mimetype="audio/wav", cache_timeout=0)
 
 if __name__ == "__main__":
     app.config.update(
