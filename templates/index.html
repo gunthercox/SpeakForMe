@@ -5,13 +5,20 @@
 
   <link href="https://cdnjs.cloudflare.com/ajax/libs/foundation/5.4.7/css/foundation.css" rel="stylesheet" />
   <link href="css/main.css" rel="stylesheet" />
-  <script>
+  <script type="text/javascript">
 	function saveCookie(){
 	  var name = document.getElementById("name").value;
 	  var existingCookie = ReadCookie("S4MEName");
+
+    // Check that the name isn't already there
+    if (existingCookie.indexOf(name) !== -1) {
+      return;
+    }
+
 	  // Append to the cookies
-	  var save_this = "S4MEName="+existingCookie+"/?"+name;
-	  document.cookie=save_this;
+	  var save_this = "S4MEName=" + existingCookie + "/?" + name;
+
+	  document.cookie = save_this;
 	}
 	function ReadCookie(name)
 	{
@@ -33,10 +40,12 @@
 <div class="row">
 <h1>
     <span class="speak">Speak</span>For<span class="me">Me</span>
+    <small>Creating more realistic vocal experiences</small>
 </h1>
 
 <p>
-  SpeakForMe allows you to use any voice as the source for a speech synthesizer.
+  Become part of a community of voices that allow you to sound more like a
+  human and less like a science fiction killer.
 </p>
 
 <dl class="tabs" data-tab>
@@ -44,14 +53,18 @@
     <a href="#tab-record">I have a voice</a>
   </dd>
   <dd>
-    <a href="#tab-create" onclick="populateDropdown();">I need a voice</a>
+    <a href="#tab-create">I need a voice</a>
   </dd>
 </dl>
 
 <div class="tabs-content">
   <div class="content active" id="tab-record">
     <p>
-      In order to get started, enter the name of the voice you want to record (make it unique) and click the "Record" button below.
+      In order to get started, enter the name of the voice you want to record
+      (make it unique) and click the "Record" button below. After clicking
+      "Record", you will be prompted for access to your microphone twice. This
+      will allow us to record your voice, and you will be able to stop recording
+      at any time.
     </p>
 
     <div class="row collapse">
@@ -70,7 +83,7 @@
           Record
         </button>
 
-        <button class="button alert js-btn-stop hide" onclick="saveCookie();">
+        <button class="button alert postfix js-btn-stop hide" onclick="saveCookie();">
           Stop
         </button>
       </div>
@@ -84,40 +97,47 @@
       <textarea class="js-text-said" readonly="readonly"></textarea>
 
       <p>
-        You will now be able to synthesize speech using these same words, and other words like them, by referencing the name you entered above.
+        You will now be able to synthesize speech using these same words,
+        and other words like them, by referencing the name you entered above.
       </p>
     </div>
   </div>
 
   <div class="content" id="tab-create">
-    <div class="row">
-      <div class="content" id="text-input">
-        <div class="row" align="center">
-	  <p>Choose a voice to dictate. </p>
-    <form method="POST" action="/play">
-	  <script>
-	    var names = ReadCookie("S4MEName").split("/?");
-	    var option = "<select name=\"name\">";
-	    for(var i = 0; i < names.length; i++){
-  	     option += "<option value="+names[i]+">"+names[i]+"</option>";
-	    }
-	    option += "</select>";
-	    document.write(option);
-	  </script>
-          <p>Enter text below to synthesize with your own voice.</p>
-          <input type="text" id="text_input" name="text_input">
-	  <input type="submit" value="Submit">
-	  </form>
-          <br />
-          <div align="right"><a href="#">Play</a><a href="/download/" style="margin-right:100px;"><img width=50 height=50 src="/img/download.png"></a>
-	  <br />
-        </div>
+    <div class="content" id="text-input">
+      <div class="row collapse" align="center">
+        <p>
+          Pick the name of a voice to use when generating the audio file.
+        </p>
+        <form method="POST" action="/play">
+
+          <script>
+            var names = ReadCookie("S4MEName").split("/?");
+            var option = "<select name=\"name\">";
+            for(var i = 0; i < names.length; i++){
+              option += "<option value="+names[i]+">"+names[i]+"</option>";
+            }
+            option += "</select>";
+            document.write(option);
+          </script>
+
+          <p>Enter text below that you would like the voice to say.</p>
+
+          <textarea id="text_input" name="text_input"></textarea>
+	      <input class="button" type="submit" value="Submit">
+
+          <hr class="hr-dashed" />
+
+          <a href="/download/" style="font-size: 38px;">Play
+            <img width=50 height=50 src="/img/download.png">
+          </a>
+
+	    </form>
+
       </div>
     </div>
+
   </div>
-
-</div>
-
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.js"></script>

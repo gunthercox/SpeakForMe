@@ -5,3 +5,23 @@
 .me {
   color: green;
 }
+
+.hr-dashed {
+  border: dashed #dddddd;
+  border-width: 4px 0 0;
+}
+
+.tabs {
+  border-bottom: 1px solid #ddd;
+}
+
+.tabs dd {
+  border: 1px solid #efefef;
+  border-bottom: none;
+  margin-bottom: -1px!important;
+}
+
+.tabs dd.active {
+  border: 1px solid #D7D7D7;
+  border-bottom: none;;
+}
