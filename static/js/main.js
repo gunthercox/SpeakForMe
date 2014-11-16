@@ -17,6 +17,7 @@ var audioContext = new AudioContext();
 
 $btnRecord.on('click', function () {
   $weHeard.fadeOut();
+  $textSaid.val('');
 
   if (!recorder) {
     navigator.webkitGetUserMedia({

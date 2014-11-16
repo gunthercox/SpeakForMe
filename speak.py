@@ -22,23 +22,29 @@ def index():
     url_for('static', filename='js/recorder.js')
     url_for('static', filename='js/recorderWorker.js')
     url_for('static', filename='img/download.png')
+
     return render_template('index.html')
 
 @app.route('/api/add', methods = ['POST'])
 def post():
+    from split.silence import convert_upload
+
     text = request.form['text']
     name = request.form['name']
-    print("text is '" + text + "'")
-    print("name is '" + name + "'")
-    file = request.files['file']
-    
-    if file:
-	path = os.getcwd()+"/uploads/"+name
-        if not os.path.exists(path):
-    	    os.makedirs(path)
-	file.save(path+"/"+strftime("%Y-%m-%d_%H:%M:%S", gmtime())+".wav")  
 
-    
+    file = request.files['file']
+
+    if file:
+        path = os.getcwd() + "/uploads/" + name
+
+        if not os.path.exists(path):
+            os.makedirs(path)
+
+    file_name = path + "/" + strftime("%Y-%m-%d_%H:%M:%S", gmtime())+".wav"
+
+    file.save(file_name)
+
+    convert_upload(file_name, text)
 
     return redirect('/')
 
