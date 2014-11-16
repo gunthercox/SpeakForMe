@@ -170,15 +170,16 @@ def convert_upload(file_name, sentence, user):
 
             phoneme_start = 0
 
-	    os.makedirs("uploads/%s/phonemes/%s" % (user, word))
-
             for phoneme in phonemes:
+                if not os.path.exists("uploads/%s/phonemes/%s" % (user, phoneme)):
+                    os.makedirs("uploads/%s/phonemes/%s" % (user, phoneme))
+
                 ratio = 1 / len(phonemes)
-		print phoneme + " --> " + word
                 frame_count = int(ratio * word_length)
-	   	filepath = "uploads/%s/phonemes/%s/%s" % (user, word, phoneme)
-	   	print filepath
-                saveSegment(filepath, file, word_data, phoneme_start, phoneme_start + frame_count)
+                phoneme_path = "uploads/%s/phonemes/%s/%s.wav" % (user, phoneme, word)
+
+                saveSegment(phoneme_path, file, word_data, phoneme_start, phoneme_start + frame_count)
+
                 phoneme_start += frame_count
 
     file.close()
