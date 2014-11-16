@@ -1,3 +1,5 @@
+from __future__ import division
+
 from split.data import saveSegment
 
 from array import array
@@ -6,6 +8,7 @@ import json
 import pyaudio
 import sys
 import wave
+import subprocess
 
 # Files are stored in directories with the pattern:
 # /data/{{ voice_name }}/{{ sound }}/{{ sound }}.wav
@@ -13,7 +16,8 @@ import wave
 
 phoneme_swap = {
     "IH": "I",
-    "UW": "U"
+    "UW": "U",
+    "Z": "ZZZ"
 }
 
 phoneme_dictionary = json.load(open("data/cmu_edited.txt"))
@@ -33,7 +37,7 @@ def get_phoneme_sum(phonemes):
 
     return len(total_phoneme)
 
-sentence = "Create ongoing communication and support your teachers by sending them links to view their observations and evaluations".split()
+sentence = "Create ongoing communication and support teachers by sending links to view their observations and evaluations".lower().split()
 sentence_index = -1
 
 CHUNK_SIZE = 256
@@ -131,21 +135,64 @@ for idx, data in enumerate(all_data):
 
         phoneme_sum = get_phoneme_sum(phonemes)
 
+        if len(word) < 5:
+            if len(word) == 2:
+                phoneme_sum = 1
+            if len(word) == 3:
+                phoneme_sum = 3
+
+        if word.endswith("ing"):
+            phoneme_sum -= 2
+
+        if word.endswith("s"):
+            phoneme_sum += 2
+
+        if word.startswith("the"):
+            phoneme_sum -= 3
+
         if end_idx - start_idx < phoneme_sum * 7:
             continue
 
         in_silence = True
         words += 1
+
         print "End word", word, phoneme_sum * 7
-
-
         print ">>>>>>>>>", end_idx, end_idx - start_idx
 
         smurf_data = raw_data[start_idx:end_idx+1]
         for data in smurf_data:
             out_file.writeframes(data)
 
-        saveSegment("test"+str(idx), file, raw_data, start_idx, end_idx)
+        if len(word) < 4:
+            continue
+
+        saveSegment(word, file, raw_data, start_idx, end_idx)
+        subprocess.call(["sox", "temp/" + word+".wav", "temp/" + word+"-stripped.wav", "silence", "1", "0.1", "0.1%", "reverse", "silence", "1", "0.1", "2.5%", "reverse"])
+
+        word_file = wave.open("temp/" + word+"-stripped.wav", "rb")
+        data = word_file.readframes(CHUNK_SIZE)
+        word_data = []
+
+        while data != "":
+            word_data.append(data)
+            data = word_file.readframes(CHUNK_SIZE)
+
+        phoneme_sum = get_phoneme_sum(phonemes)
+
+        word_length = len(word_data)
+
+        phoneme_start = 0
+
+        for phoneme in phonemes:
+            ratio = 1 / len(phonemes)
+
+            frame_count = int(ratio * word_length)
+
+            saveSegment("phonemes/" + word + "-" + phoneme, file, word_data, phoneme_start, phoneme_start + frame_count)
+
+            print phoneme, ratio, ratio * word_length
+
+            phoneme_start += frame_count
 
 print start_silence, words
 
